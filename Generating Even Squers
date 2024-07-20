@@ -1,46 +1,47 @@
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ListOperations {
-    public static void mainI(String[] args) {
-       Scanner scanner = new Scanner(System.in);
-       // Input the list of integers
-       System.out.print("Enter the list of integers (space-separated): ");
-       String input = scanner.nextLine();
-       String[] inputArray = input.split(" ");
-       List<Integer> originalList = new ArrayList<>();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-       for (String numStr : inputArray) {
-       try {
-           originalList.add(Integer.parseInt(numStr));
-      } catch (NumberFormatException e) {
-        System.out.printIn("Invalid input: " + numStr);
-        return;
-      }
- }
+        // Input the list of integers
+        System.out.print("Enter the list of integers (space-separated): ");
+        String input = scanner.nextLine();
+        String[] inputArray = input.split(" ");
+        List<Integer> originalList = new ArrayList<>();
 
- // Create a list of squares of even numbers
- List<Integer> evenSquaresList = new ArrayList<>();
- for (int num : originalList) {
-     if (num % 2 == 0) {
-        evenSquaresList.add(num*num);
-     }
- }
- System.out.printIn("List of squares of even numbers: " + evenSquaresList);
+        for (String numStr : inputArray) {
+            try {
+                originalList.add(Integer.parseInt(numStr));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input: " + numStr);
+                return;
+            }
+        }
 
- // Input the start and end indices for slicing
- System.out.print("Enter the start index: ");
- int startIndex = scanner.nextInt();
+        // Create a list of squares of even numbers using Streams
+        List<Integer> evenSquaresList = originalList.stream()
+                .filter(num -> num % 2 == 0) // Filter even numbers
+                .map(num -> num * num) // Square the numbers
+                .collect(Collectors.toList()); // Collect the results into a list
 
- System.out.print("Enter the end index: ");
- int endIndex = scanner.nextInt();
+        System.out.println("List of squares of even numbers: " + evenSquaresList);
 
- if (startIndex < 0 || endIndex > originalList.size() startIndex > endIndex) {
-    System.out.printIn("Invalid indices. Please enter valid start and end indices.");
- } else {
-    List<Integer> subList = originalList.subList(startIndex, endIndex);
-    System.out.printIn("Sliced list: " + subList);
- }
-}
+        // Input the start and end indices for slicing
+        System.out.print("Enter the start index: ");
+        int startIndex = scanner.nextInt();
+
+        System.out.print("Enter the end index: ");
+        int endIndex = scanner.nextInt();
+
+        if (startIndex < 0 || endIndex > originalList.size() || startIndex > endIndex) {
+            System.out.println("Invalid indices. Please enter valid start and end indices.");
+        } else {
+            List<Integer> subList = originalList.subList(startIndex, endIndex);
+            System.out.println("Sliced list: " + subList);
+        }
+    }
 }
